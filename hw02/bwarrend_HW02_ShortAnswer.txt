@@ -1,0 +1,22 @@
+BRETT WARRENDER
+
+
+
+1. What is the difference between int and const int?
+
+2. What is the difference between a function declaration and a function definition?
+
+3. What is wrong with the following C++ code? How would you fix it?int sum;for(int i=0; i<1000; ++i) {sum += i;}printf("Sum of 0 to 999 is %d\n", sum);
+
+4. What is wrong with the following code and how would you fix it?int n = 1;if(n = 0) {print("n is zero\n");}
+
+5. What is wrong with the following code and how would you fix it?int*ptr = nullptr;scanf("%d", ptr);printf("You entered %d",*ptr);
+
+6. What is the difference between the * and & operators?
+
+7. Describe what each of the following declare:
+	(a) int* a;
+	(b) const int b;
+	(c) const int* c;
+	(d) int* const d;1
+	(e) const int* const e;
