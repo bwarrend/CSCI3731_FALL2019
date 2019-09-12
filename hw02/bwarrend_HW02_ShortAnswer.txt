@@ -3,14 +3,55 @@ BRETT WARRENDER
 
 
 1. What is the difference between int and const int?
+		An int is a variable that can declared, defined, and changed throughout the
+	program.  A const int is a constant and once declared, cannot be changed
+	again.
 
-2. What is the difference between a function declaration and a function definition?
+2. What is the difference between a function declaration and a function
+definition?
+		A function declaration is just stating that a function exists, what it
+	requires as an input, and what it returns.  The definition of the function is
+	where the code for the function is actually written.  A declaration and
+	definition can be at the same time< but a declaration is required for the
+	compiler to be able call the function at another time.
 
-3. What is wrong with the following C++ code? How would you fix it?int sum;for(int i=0; i<1000; ++i) {sum += i;}printf("Sum of 0 to 999 is %d\n", sum);
+3. What is wrong with the following C++ code? How would you fix it?
 
-4. What is wrong with the following code and how would you fix it?int n = 1;if(n = 0) {print("n is zero\n");}
+int sum;
+for (int i=0; i<1000; ++i)
+{
+	sum += i;
+}
 
-5. What is wrong with the following code and how would you fix it?int*ptr = nullptr;scanf("%d", ptr);printf("You entered %d",*ptr);
+printf("Sum of 0 to 999 is %d\n", sum);
+
+
+sum was never defined.  While this program should give the desired result most
+of the time, sometimes sum will not start at 0;
+
+
+
+4. What is wrong with the following code and how would you fix it?
+
+int n = 1;
+if(n = 0)
+{
+	print("n is zero\n");
+}
+
+
+n is being set to 0 instead of testing to see if n is equal to 0.  Making the
+if statement if(n == 0) would fix that.  print should also be printf.
+
+
+
+5. What is wrong with the following code and how would you fix it?
+
+int*ptr = nullptr;
+scanf("%d", ptr);
+printf("You entered %d",*ptr);
+
+
 
 6. What is the difference between the * and & operators?
 
