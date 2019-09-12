@@ -52,12 +52,19 @@ scanf("%d", ptr);
 printf("You entered %d",*ptr);
 
 
+	ptr is a pointer that references no actual place in memory, the program then
+attempts to dereference nullptr which is guaranteed Seg Fault.  We could declare
+an int and then set ptr = to &saidInt.
+
 
 6. What is the difference between the * and & operators?
+		The & operator will return the memory address associated with the variable
+	that follows the operator.  The * operator dereferences a pointer and returns
+	the data stored in the address of said pointer.
 
 7. Describe what each of the following declare:
-	(a) int* a;
-	(b) const int b;
-	(c) const int* c;
-	(d) int* const d;1
-	(e) const int* const e;
+	(a) int* a;  Declares a pointer to an int called a
+	(b) const int b; Declares a constant integer called b
+	(c) const int* c;  Declares a pointer to a constant int called c
+	(d) int* const d;  Declares a constant pointer to an int called d
+	(e) const int* const e; Declares a constant pointer to a constant int called e
