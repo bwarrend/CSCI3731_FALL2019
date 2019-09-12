@@ -14,20 +14,20 @@ int main(int argc, char** argv)
     fprintf(saveFile, "1");
     fclose(saveFile);
   }
-  //Read the file, keep reading until end of file is reached
+  //Open the file for reading
   saveFile = fopen("savefile", "r");
-  while(fscanf(saveFile, "%d", &counter) != EOF)
-  {
-    //Print the current counter to console.
-    printf("%d\n", counter);
-    //Increment the counter and close file.
-    counter++;
-    fclose(saveFile);
-    //Open the file in w mode, which overwrites the data
-    //that is currently there
-    fopen("savefile", "w");
-    fprintf(saveFile,"%d", counter);
-    fclose(saveFile);
-  }
+  //Grab the first line, a decimal, and store it in counter
+  fscanf(saveFile, "%d", &counter);
+  //Print current counter to console, increment counter
+  printf("%d\n", counter);
+  counter++;
+  //Close the file
+  fclose(saveFile);
+  //Re-open file with w flag so that it is ready to write and clears the data
+  saveFile = fopen("savefile", "w");
+  //Print the new counter to the file and then close the file
+  fprintf(saveFile, "%d", counter);
+  fclose(saveFile);
+
   return 0;
 }
