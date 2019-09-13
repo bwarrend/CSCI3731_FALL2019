@@ -14,13 +14,14 @@ int main(int argc, char** argv)
     fprintf(saveFile, "1");
     fclose(saveFile);
   }
+
   //Open the file for reading
   saveFile = fopen("savefile", "r");
   //Grab the first line, a decimal, and store it in counter
   fscanf(saveFile, "%d", &counter);
   //Print current counter to console, increment counter
-  printf("%d\n", counter);
   counter++;
+  printf("%d\n", counter);
   //Close the file
   fclose(saveFile);
   //Re-open file with w flag so that it is ready to write and clears the data
