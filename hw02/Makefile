@@ -8,8 +8,8 @@ hw02a : hw02a.o
 hw02a.o : hw02a.cc
 	g++ -c -Wall -Werror hw02a.cc
 
-hw02b : hw02b.o
+hw02b : hw02b.o bFunction.o
 	g++ -o hw02b hw02b.cc
 
-hw02b.o : hw02b.cc
-	g++ -c -Wall -Werror hw02a.cc
+hw02b.o : hw02b.cc bFunction.cc bFunction.h
+	g++ -c -Wall -Werror hw02a.cc bFunction.cc
