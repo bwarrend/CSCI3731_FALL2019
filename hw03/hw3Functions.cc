@@ -39,12 +39,17 @@ unsigned char* imageDataToArray(char fileName[], int length)
     
     fclose(imageFile);
 
+    return imageDataArray;
+}
+
+
+void createImageCopy(unsigned char* imageDataArray, int length)
+{
+    
     FILE* copyImageFIle = fopen("copy.ppm", "w");
 
     fwrite(imageDataArray, sizeof(char), length, copyImageFIle);
     
     fclose(copyImageFIle);
     
-
-    return imageDataArray;
 }

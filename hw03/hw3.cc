@@ -20,7 +20,8 @@ int main(int argc, char** argv)
         {
             if(headerReader(fileName, &width, &height))
             {
-                imageDataToArray(fileName, width * height * 3);
+                int length = width * height * 3;
+                createImageCopy(imageDataToArray(fileName, length), length);
             }
             else
             {
