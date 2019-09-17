@@ -18,14 +18,13 @@ int main(int argc, char** argv)
 
         if( (imageFile = fopen(fileName, "r")) != NULL)
         {
-            if(headerReader(fileName, &width, &height))
-            {
-                imageDataToArray(fileName, width * height * 3);
-            }
-            else
-            {
-                printf("\nSomething went wrong, try again.\n");
-            }
+
+            createImageCopy(createImageDataArray(fileName, &width, &height), &width, &height);
+            printf("Imaged copied successfully! (I hope)\n");
+            printf("Press <Enter> to exit\n");
+            getchar();
+            printf("\e[1;1H\e[2J");
+
             
         }
         else
