@@ -34,23 +34,17 @@ unsigned char* imageDataToArray(char fileName[], int length)
     unsigned char* imageDataArray = new unsigned char[length];
     
     FILE* imageFile = fopen(fileName, "r");
-    
 
-    //for(int i = 0; i < length; i++)
-    //{
-
-        fread(imageDataArray, sizeof(char), length, imageFile);
-
-    //}
+    fread(imageDataArray, sizeof(char), length, imageFile);
     
     fclose(imageFile);
 
+    FILE* copyImageFIle = fopen("copy.ppm", "w");
 
-    //PRINT IT
-    for(int i = 0; i < length; i++)
-    {
-        printf("\n%c", imageDataArray[i]);
-    }
+    fwrite(imageDataArray, sizeof(char), length, copyImageFIle);
+    
+    fclose(copyImageFIle);
+    
 
     return imageDataArray;
 }

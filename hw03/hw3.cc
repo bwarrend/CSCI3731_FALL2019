@@ -20,7 +20,7 @@ int main(int argc, char** argv)
         {
             if(headerReader(fileName, &width, &height))
             {
-                imageDataToArray(fileName, width * height);
+                imageDataToArray(fileName, width * height * 3);
             }
             else
             {
