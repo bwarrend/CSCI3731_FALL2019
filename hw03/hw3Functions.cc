@@ -1,8 +1,7 @@
 #include <cstdio>
 
-unsigned char* imageDataToArray(char fileName[], int* width, int* height)
-{   
-    unsigned char* imageDataArray = new unsigned char[(*width * *height * 3)];
+int headerReader(char fileName[], int* width, int* height)
+{
     FILE* imageFile = nullptr;
     char isP6[2];
     int colorsN = 0;
@@ -12,8 +11,7 @@ unsigned char* imageDataToArray(char fileName[], int* width, int* height)
     fscanf(imageFile, "%s", isP6);
     fscanf(imageFile, "%d %d", width, height);
     fscanf(imageFile, "%d", &colorsN);
-    //fclose(imageFile);
-
+    fclose(imageFile);
 
     if(isP6[0] == 'P' && isP6[1] == '6' && *width > 0 && *height > 0 && colorsN == 255)
     {
@@ -21,33 +19,32 @@ unsigned char* imageDataToArray(char fileName[], int* width, int* height)
         printf("Press Any Key to proceed with copy...");
         getchar();
         printf("\e[1;1H\e[2J");
-
-        //FILE* imageFile = fopen(fileName, "r");
-
-        fread(imageDataArray, sizeof(char), *width * *height, imageFile);
-    
-        fclose(imageFile);
-
-
-        return imageDataArray;
+        return 1;
     }
     else
     {
         printf("\n!Invalid or corrupt header!\n");
-        fclose(imageFile);
-        return NULL;
+        return 0;
     }                                                                                                                                                                                                                                                                                                                                                                        
 }
 
 
-
-void createImageCopy(unsigned char* imageDataArray, int length)
+unsigned char* imageDataToArray(char fileName[], int length)
 {
+    unsigned char* imageDataArray = new unsigned char[length];
     
+    FILE* imageFile = fopen(fileName, "r");
+
+    fread(imageDataArray, sizeof(char), length, imageFile);
+    
+    fclose(imageFile);
+
     FILE* copyImageFIle = fopen("copy.ppm", "w");
 
-    //fwrite(imageDataArray, sizeof(char), length-100, copyImageFIle);
+    fwrite(imageDataArray, sizeof(char), length, copyImageFIle);
     
     fclose(copyImageFIle);
     
+
+    return imageDataArray;
 }
