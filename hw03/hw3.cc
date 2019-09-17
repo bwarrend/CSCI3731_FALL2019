@@ -18,22 +18,15 @@ int main(int argc, char** argv)
 
         if( (imageFile = fopen(fileName, "r")) != NULL)
         {
-            if(headerReader(fileName, &width, &height))
-            {
-                int length = width * height * 3;
-                createImageCopy(imageDataToArray(fileName, length), length);
-            }
-            else
-            {
-                printf("\nSomething went wrong, try again.\n");
-            }
+
+            createImageCopy(imageDataToArray(fileName, &width, &height), width * height);
             
         }
         else
         {
             printf("File '%s' does not exist or otherwise cannot be opened.\n", fileName);
         }
-    }
+    }    
     else
     {
         printf("Invalid console argument provided. Try ./hw3 FILENAME\n");    
