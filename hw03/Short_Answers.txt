@@ -1,0 +1,56 @@
+1. What is wrong with the following code, and how would you fix it?
+
+void swap(int* a, int* b) {
+	int* tmp = a;
+	a = b;
+	b = tmp;
+} // end of swap method
+
+In the function; a, b, and tmp are pointers and therefore the VALUES are not actually changing.  Dereferencing a and b with the * operator could fix this function.
+
+void swap(int* a, int* b)
+{
+        int* tmp = *a;
+        *a = *b;
+        *b = tmp;
+}
+
+
+
+2. Suppose you have a function that takes an array as an argument in the usual way, which is
+declared as:
+void f(int* array, int length);
+Suppose you also have an array declared as:
+int a[128];
+How would you pass a sub-array containing only the third through sixth elements of a to the
+function f?
+
+You can pass a sub-array containing only the third through sixth elements of array a to function f by performing arithmetic on the pointer to the array in the function f's first argument and by adjusting the length in function f's second argument.  That would like this:
+
+f(a+2,4);
+
+
+
+
+3. What is wrong with the following code and how would you fix it?
+
+double* allocateArray(int length) {
+	double array[length];
+	return array;
+}
+
+You are unable to return local arrays from a function.   You could instead return a new array, allocating that memory to the heap.
+
+
+
+4. What is wrong with the following code, and how would you fix it?
+char string[5];
+string[0] = ’h’;
+string[1] = ’e’;
+string[2] = ’l’;
+string[3] = ’l’;
+string[4] = ’o’;
+printf("%s\n", string);
+
+
+The string is not null terminated. Making the array longer and adding \0 as the last character would be safer.
