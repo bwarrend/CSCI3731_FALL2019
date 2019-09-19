@@ -7,7 +7,7 @@
 */
 unsigned char* createImageDataArray(char fileName[], int* width, int* height)
 {
-    FILE* imageFile;// = nullptr;
+    FILE* imageFile;
     char isP6[2];
     int colorsN = 0;
 

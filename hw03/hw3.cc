@@ -5,8 +5,8 @@
 int main(int argc, char** argv)
 {
     unsigned char* imageDataArray;
-    char* fileName; // nullptr;
-    FILE* imageFile;// nullptr;
+    char* fileName;
+    FILE* imageFile;
     int width = 0, height = 0;
 
     //If there are 2 command line arguments, let's begin, otherwise cut it out
@@ -29,6 +29,10 @@ int main(int argc, char** argv)
             redify(imageDataArray, width, height);
             blueify(imageDataArray, width, height);
             greyScale(imageDataArray, width, height);
+
+            //Collecting some garbage
+            delete []imageDataArray;
+            imageDataArray = NULL;
         }
         else
         {
