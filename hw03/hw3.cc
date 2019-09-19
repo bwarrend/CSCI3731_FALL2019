@@ -5,8 +5,8 @@
 int main(int argc, char** argv)
 {
     unsigned char* imageDataArray;
-    char* fileName = nullptr;
-    FILE* imageFile = nullptr;
+    char* fileName; // nullptr;
+    FILE* imageFile;// nullptr;
     int width = 0, height = 0;
 
     //If there are 2 command line arguments, let's begin, otherwise cut it out

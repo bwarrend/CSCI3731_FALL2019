@@ -7,12 +7,12 @@
 */
 unsigned char* createImageDataArray(char fileName[], int* width, int* height)
 {
-    FILE* imageFile = nullptr;
+    FILE* imageFile;// = nullptr;
     char isP6[2];
     int colorsN = 0;
 
     //Open the file
-    imageFile = fopen(fileName, "r");
+    imageFile = fopen(fileName, "rb");
     //Parse the header data
     fscanf(imageFile, "%s", isP6);
     fscanf(imageFile, "%d %d", width, height);
@@ -41,7 +41,7 @@ unsigned char* createImageDataArray(char fileName[], int* width, int* height)
     {
         printf("\n!Invalid or corrupt header!\n");
         return NULL;
-    }                                                                                                                                                                                                                                                                                                                                                                        
+    }                                                                                                                                                                                                                                                                                                              
 }
 
 /*
@@ -53,7 +53,7 @@ void createImageCopy(unsigned char* imageDataArray, int width, int height)
     //Find the length of the array
     int length = height * width * 3;
     //Create the file
-    FILE* copyImageFile = fopen("copy.ppm", "w");
+    FILE* copyImageFile = fopen("copy.ppm", "wb");
     //Place the header information, based on the standard and the given lxw
     fprintf(copyImageFile, "P6\n%d %d\n255",width, height);
     //write in the image data from the array
@@ -68,7 +68,7 @@ void createImageCopy(unsigned char* imageDataArray, int width, int height)
 void blueify(unsigned char* imageDataArray, int width, int height)
 {
     int length = height * width * 3;
-    FILE* copyImageFile = fopen("copy_blue.ppm", "w");
+    FILE* copyImageFile = fopen("copy_blue.ppm", "wb");
     fprintf(copyImageFile, "P6\n%d %d\n255\n",width, height);
     
     
@@ -87,7 +87,7 @@ void blueify(unsigned char* imageDataArray, int width, int height)
 void greenify(unsigned char* imageDataArray, int width, int height)
 {
     int length = height * width * 3;
-    FILE* copyImageFile = fopen("copy_green.ppm", "w");
+    FILE* copyImageFile = fopen("copy_green.ppm", "wb");
     fprintf(copyImageFile, "P6\n%d %d\n255\n",width, height);
     
     
@@ -106,7 +106,7 @@ void greenify(unsigned char* imageDataArray, int width, int height)
 void redify(unsigned char* imageDataArray, int width, int height)
 {
     int length = height * width * 3;
-    FILE* copyImageFile = fopen("copy_red.ppm", "w");
+    FILE* copyImageFile = fopen("copy_red.ppm", "wb");
     fprintf(copyImageFile, "P6\n%d %d\n255\n",width, height);
     
     
@@ -125,7 +125,7 @@ void redify(unsigned char* imageDataArray, int width, int height)
 void greyScale(unsigned char* imageDataArray, int width, int height)
 {
     int length = height * width * 3;
-    FILE* copyImageFile = fopen("copy_grey.ppm", "w");
+    FILE* copyImageFile = fopen("copy_grey.ppm", "wb");
     fprintf(copyImageFile, "P6\n%d %d\n255\n",width, height);
 
     for(int i = 0; i < length; i++)
