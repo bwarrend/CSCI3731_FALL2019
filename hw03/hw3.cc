@@ -20,7 +20,7 @@ int main(int argc, char** argv)
         {
 
             createImageCopy(createImageDataArray(fileName, &width, &height), &width, &height);
-            printf("Imaged copied successfully! (I hope)\n");
+            printf("Image copied successfully! (I hope)\n");
             printf("Press <Enter> to exit\n");
             getchar();
             printf("\e[1;1H\e[2J");
