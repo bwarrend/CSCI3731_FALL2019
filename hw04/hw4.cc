@@ -1,64 +1,100 @@
 #include <cstdio>
 #include "hw4Functions.h"
 
-
-int main(int argc, char** argv)
+int** createFlatArray( int* width, int* height)
 {
-    unsigned char* imageDataArray;
-    char* fileName;
     FILE* imageFile;
-    int width = 0, height = 0;
+    char isP6[2];
+    int colorsN = 0;
 
-    //If there are 2 command line arguments, let's begin, otherwise cut it out
-    if(argc == 2)
-    {
-        fileName = argv[1];
+    //Open the file
+    imageFile = fopen("test.ppm", "rb");
+    //Parse the header data
+    fscanf(imageFile, "%s", isP6);
+    fscanf(imageFile, "%d %d", width, height);
+    fscanf(imageFile, "%d", &colorsN);
 
-        //Check to see if the file exists, if it does, proceed to the functions
-        if( (imageFile = fopen(fileName, "r")) != NULL)
-        {   
-            /*
-            /createImageDataArray returns an array of unsigned characters from
-            /the image data of the file specified in the command line argument.
-            /Send a pointer for height and width so we can use that later
-            */
-            imageDataArray = createImageDataArray(fileName, &width, &height);
-            writeImage(imageDataArray, width, height, "copy.ppm");
+    //Big check to make sure we are indeed dealing with a PPM file
+    if(isP6[0] == 'P' && isP6[1] == '6' && *width > 0 && *height > 0 && colorsN == 255)
+    {   
+        //Make sure the user is ready for what comes next
+        printf("Name: \ttest.ppm\nStyle: \t%s\nSize: \t%dx%d\nColors: %d\n", isP6, *width, *height, colorsN);
+        printf("Press <Enter> to proceed with copy...");
+        getchar();
+        printf("\e[1;1H\e[2J");
+        //Set the array length, height x width x 3
+        int length = *height * *width;
+        //Create an array of unsigned characters with the length we got above
+        int* imageDataArray = new int[length];
+        //fread fills the array with data it gets from the file in size char
+        fread(imageDataArray, sizeof(int), length, imageFile);
+        //always close
+        fclose(imageFile);
 
-            int length = width * height * 3;
+        int** array = new int*[height];
+        array[0] = new int[width * height];
 
-            //Just messing around with color manipulation
-
-            unsigned char* greenArray = greenify(imageDataArray, length);
-            writeImage(greenArray, width, height, "green_copy.ppm");
-            unsigned char* blueArray = blueify(imageDataArray, length);
-            writeImage(blueArray, width, height, "blue_copy.ppm");
-            unsigned char* redArray = redify(imageDataArray, length);
-            writeImage(redArray, width, height, "red_copy.ppm");
-            unsigned char* greyArray = greyscale(imageDataArray, length);
-            writeImage(greyArray, width, height, "grey_copy.ppm");
-
-            //Collecting some garbage
-            delete []imageDataArray;
-            imageDataArray = NULL;            
-            delete []blueArray;
-            blueArray = NULL;
-            delete []greenArray;
-            greenArray = NULL;
-            delete []redArray;
-            redArray = NULL;
-            delete []greyArray;
-            greyArray = NULL;
-        }
-        else
+        for(int j = 1; j < height; ++j)
         {
-            printf("File '%s' does not exist or otherwise cannot be opened.\n", fileName);
+            array[j] = array[j-1] + width;
         }
+
+        delete []imageDataArray;
+        imageDataArray = NULL;
+
+        return imageDataArray;
     }
     else
     {
-        printf("Invalid console argument provided. Try ./hw3 FILENAME\n");    
+        printf("\n!Invalid or corrupt header!\n");
+        return NULL;
+    }                                                                                                                                                                                                                                                                                                              
+}
+
+
+
+
+int main(int argc, char** argv)
+{
+
+    int* imageDataArray;
+    int width = 0, height = 0;
+
+    imageDataArray = createFlatArray(&width, &height);
+
+
+    for(int i = 0; i < width*height; ++i)
+    {   
+        unsigned char* bytes = (unsigned char*)(&imageDataArray[i]);
+        printf("%d %d %d %d\n", bytes[0], bytes[1], bytes[2], bytes[3]);
     }
-    
+
+
+
+
+
+
+    /*
+    int** array = new int*[height];
+    imageDataArray[0] = new int[width*height];
+
+    for(int j=1; j<height; ++j)
+    {
+        imageDataArray[j] = imageDataArray[ j-1] + width;
+    }
+    */
+
+
+
+
+
+
+
+
+
+
+
+
+
     return 0;
 }
