@@ -1,7 +1,7 @@
 #include <cstdio>
 #include "hw4Functions.h"
 
-int** createFlatArray( int* width, int* height)
+unsigned char* createFlatArray( int* width, int* height)
 {
     FILE* imageFile;
     char isP6[2];
@@ -18,29 +18,34 @@ int** createFlatArray( int* width, int* height)
     if(isP6[0] == 'P' && isP6[1] == '6' && *width > 0 && *height > 0 && colorsN == 255)
     {   
         //Make sure the user is ready for what comes next
-        printf("Name: \ttest.ppm\nStyle: \t%s\nSize: \t%dx%d\nColors: %d\n", isP6, *width, *height, colorsN);
-        printf("Press <Enter> to proceed with copy...");
-        getchar();
-        printf("\e[1;1H\e[2J");
+        //printf("Name: \ttest.ppm\nStyle: \t%s\nSize: \t%dx%d\nColors: %d\n", isP6, *width, *height, colorsN);
+        //printf("Press <Enter> to proceed with copy...");
+        //getchar();
+        //printf("\e[1;1H\e[2J");
         //Set the array length, height x width x 3
-        int length = *height * *width;
+        int length = *height * *width * 3;
         //Create an array of unsigned characters with the length we got above
-        int* imageDataArray = new int[length];
+        unsigned char* imageDataArray = new unsigned char[length];
         //fread fills the array with data it gets from the file in size char
-        fread(imageDataArray, sizeof(int), length, imageFile);
+        fread(imageDataArray, sizeof(char), length, imageFile);
         //always close
         fclose(imageFile);
+        
+        /*
+        
+        int w = *width;
+        int h = *height;
+        int** array = new int*[h];
+        array[0] = new int[w * h];
 
-        int** array = new int*[height];
-        array[0] = new int[width * height];
-
-        for(int j = 1; j < height; ++j)
+        for(int j = 1; j < h; ++j)
         {
-            array[j] = array[j-1] + width;
+            array[j] = array[j-1] + w;
         }
 
-        delete []imageDataArray;
-        imageDataArray = NULL;
+        */
+
+        
 
         return imageDataArray;
     }
@@ -57,17 +62,35 @@ int** createFlatArray( int* width, int* height)
 int main(int argc, char** argv)
 {
 
-    int* imageDataArray;
+    unsigned char* imageDataArray;
     int width = 0, height = 0;
 
     imageDataArray = createFlatArray(&width, &height);
+    int length = width * height;
+    int intArray[length];
+    
+    
+    for(int i = 0; i < length; i++)
+    {
+        intArray[i] = 0;
 
-
-    for(int i = 0; i < width*height; ++i)
-    {   
-        unsigned char* bytes = (unsigned char*)(&imageDataArray[i]);
-        printf("%d %d %d %d\n", bytes[0], bytes[1], bytes[2], bytes[3]);
     }
+
+    printf("\n%d\n", intArray[5]);
+
+
+
+    //FILE* copyImageFile = fopen("copy.ppm", "w");
+    //fprintf(copyImageFile, "P6\n%d %d\n255",width, height);
+    
+
+
+    //fwrite(imageDataArray, sizeof(char), width*height*3, copyImageFile);
+
+    delete []imageDataArray;
+    imageDataArray = NULL;
+
+    //fclose(copyImageFile);
 
 
 
