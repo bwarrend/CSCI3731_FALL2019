@@ -43,9 +43,7 @@ unsigned char* createFlatArray( int* width, int* height)
             array[j] = array[j-1] + w;
         }
 
-        */
-
-        
+        */        
 
         return imageDataArray;
     }
@@ -58,10 +56,8 @@ unsigned char* createFlatArray( int* width, int* height)
 
 
 
-
 int main(int argc, char** argv)
 {
-
     unsigned char* imageDataArray;
     int width = 0, height = 0;
 
@@ -72,25 +68,35 @@ int main(int argc, char** argv)
     
     for(int i = 0; i < length; i++)
     {
-        intArray[i] = 0;
-
+        unsigned char* bytes = (unsigned char*)(&intArray[i]);
+        bytes[0] = 0;
+        bytes[1] = imageDataArray[i*3];
+        bytes[2] = imageDataArray[i*3+1];
+        bytes[3] = imageDataArray[i*3+2];
     }
 
-    printf("\n%d\n", intArray[5]);
 
-
-
-    //FILE* copyImageFile = fopen("copy.ppm", "w");
-    //fprintf(copyImageFile, "P6\n%d %d\n255",width, height);
+    for(int i = 0; i < length; i++)
+    {
+        unsigned char* bytes = (unsigned char*)(&intArray[i]);
+        imageDataArray[i*3] = bytes[1];
+        imageDataArray[i*3+1] = bytes[2];
+        imageDataArray[i*3+2] = bytes[3];
+    }
     
 
 
-    //fwrite(imageDataArray, sizeof(char), width*height*3, copyImageFile);
+    FILE* copyImageFile = fopen("copy.ppm", "w");
+    fprintf(copyImageFile, "P6\n%d %d\n255",width, height);
+    
+
+
+    fwrite(imageDataArray, sizeof(char),length*3, copyImageFile);
 
     delete []imageDataArray;
     imageDataArray = NULL;
 
-    //fclose(copyImageFile);
+    fclose(copyImageFile);
 
 
 
