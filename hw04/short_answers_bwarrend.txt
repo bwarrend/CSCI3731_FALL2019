@@ -1,0 +1,24 @@
+1. The problem with two-dimensional arrays in C/C++ is that the size 
+of the array is not stored in the array.  The width and height needs 
+to be passed to a function in order to operate on it and that cannot 
+be changed at run time. 
+
+2. There are several ways to work around C/C++'s problems with  
+two-dimensional arrays.  One work-around is to just use a  
+one-dimensional array.  You can do this by keeping track 
+of the width and height and just offsetting the array.  The 
+better work around is to use the 'Numerical Recipes Trick'.  In 
+order to do this, you need to create an array of pointers that 
+points to the beginning of each row.  By doing this, the 
+two-dimensional array can be passed to a method so long as you 
+also include the dimensions.  The array can be written to in 
+the same way you can a traditional two-dimensional array:
+	array[j][i] = value;
+ 
+It is also possible to pass this type of two-dimensional array 
+to a method that is expecting a one-dimensional array and can 
+loop over ine a single loop, rather than looping width and 
+height separately by writing it in this format: 
+	(*array)[i]
+
+3. My computer is little endian.
