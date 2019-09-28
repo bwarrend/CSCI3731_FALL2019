@@ -7,4 +7,6 @@ int** blueify(int** imageDataArray2D, int width, int height);
 int** greenify(int** imageDataArray2D, int width, int height);
 int** redify(int** imageDataArray2D, int width, int height);
 
+void flipItHorizontal(int** array2D, int width, int height);
+
 #endif

@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <string.h>
 
 
 int** create2DFromInt(int* flatInt, int width, int height)
@@ -167,6 +168,27 @@ int** blueify(int** imageDataArray2D, int width, int height)
     return returnArray;
 }
 
+void flipItHorizontal(int** array2D, int width, int height) 
+{ 
+    int temp[width]; 
+    
+
+    for(int j = 0; j < height; j++)
+    {
+        int count = width-1;
+        for(int i = 0; i < width; i++)
+        {
+            temp[count] = array2D[j][i];
+            count--;            
+        }
+
+        for(int i = 0; i < width; i++)
+        {
+            array2D[j][i] = temp[i];
+        }        
+    }
+  
+} 
 
 int** createImageDataArray2D( int* width, int* height)
 {
@@ -224,6 +246,10 @@ void writeCopyImage(int** imageDataArray2D, const int width, const int height, c
 
     FILE* copyImageFile = fopen(fileName, "w");
     fprintf(copyImageFile, "P6\n%d %d\n255",width, height);
+    if(strcmp(fileName, "copy_flip_h.ppm") == 0)
+    {
+        fprintf(copyImageFile, "\n");
+    }
 
     fwrite(imageDataArrayFlatChar, sizeof(char),width * height * 3, copyImageFile);
 
