@@ -1,5 +1,173 @@
 #include <cstdio>
 
+
+int** create2DFromInt(int* flatInt, int width, int height)
+{
+        int length = width * height;
+
+        int** imageDataArray2D = new int* [height];
+        imageDataArray2D[0] = new int[length];
+        
+        for(int j = 1; j < height; ++j) 
+        {
+            imageDataArray2D[j] = imageDataArray2D[j-1] + width;
+        }
+
+
+        for(int i = 0; i < length; ++i)
+        {
+            (*imageDataArray2D)[i] = flatInt[i];
+        }
+
+        return imageDataArray2D;    
+}
+
+int* createFlatIntFrom2D(int** array2D, int width, int height)
+{
+    int length = width * height;
+    int* flatArray = new int[length];
+    
+    for(int i = 0; i < length; ++i)
+    {
+        flatArray[i] = (*array2D)[i];
+    }
+
+    return flatArray;    
+}
+
+unsigned char* createFlatCharFromInt(int* flatInt, int width, int height)
+{
+    int length = width * height;
+    unsigned char* flatChar = new unsigned char[length*3];
+
+    
+    for(int i = 0; i < length; i++)
+    {
+        unsigned char* bytes = (unsigned char*)(&flatInt[i]);
+        flatChar[i*3] = bytes[1];
+        flatChar[i*3+1] = bytes[2];
+        flatChar[i*3+2] = bytes[3];
+    }
+    return flatChar;    
+}
+
+int* createFlatIntFromChar(unsigned char* flatChar, int width, int height)
+{
+    int length =  width * height;
+    int* flatInt = new int[length];
+
+    for(int i = 0; i < length; i++)
+    {
+        unsigned char* bytes = (unsigned char*)(&flatInt[i]);
+        bytes[1] = flatChar[i*3];
+        bytes[2] = flatChar[i*3+1];
+        bytes[3] = flatChar[i*3+2];
+    }
+    return flatInt;
+}
+
+int** redify(int** imageDataArray2D, int width, int height)
+{
+    int length = width * height;
+    
+    int* flatInt = createFlatIntFrom2D(imageDataArray2D, width, height);
+    unsigned char* flatChar = createFlatCharFromInt(flatInt, width, height);
+    
+    for(int i = 1; i < length * 3; i++)
+    {    
+        flatChar[i] = 255;   
+        i++;        
+        i++;
+    }
+
+    flatInt = createFlatIntFromChar(flatChar, width, height);
+
+    int** returnArray = new int* [height];
+    returnArray[0] = new int[length];        
+    for(int j = 1; j < height; ++j) 
+    {
+        imageDataArray2D[j] = imageDataArray2D[j-1] + width;
+    }    
+    
+    returnArray = create2DFromInt(flatInt, width, height);
+
+    delete[] flatChar;
+    delete[] flatInt;
+    flatChar = NULL;
+    flatInt = NULL;
+
+    return returnArray;
+}
+
+
+int** greenify(int** imageDataArray2D, int width, int height)
+{
+    int length = width * height;
+    
+    int* flatInt = createFlatIntFrom2D(imageDataArray2D, width, height);
+    unsigned char* flatChar = createFlatCharFromInt(flatInt, width, height);
+    
+    for(int i = 1; i < length * 3; i++)
+    {       
+        i++;        
+        flatChar[i] = 255;
+        i++;
+    }
+
+    flatInt = createFlatIntFromChar(flatChar, width, height);
+
+    int** returnArray = new int* [height];
+    returnArray[0] = new int[length];        
+    for(int j = 1; j < height; ++j) 
+    {
+        imageDataArray2D[j] = imageDataArray2D[j-1] + width;
+    }    
+    
+    returnArray = create2DFromInt(flatInt, width, height);
+
+    delete[] flatChar;
+    delete[] flatInt;
+    flatChar = NULL;
+    flatInt = NULL;
+
+    return returnArray;
+}
+
+
+int** blueify(int** imageDataArray2D, int width, int height)
+{
+    int length = width * height;
+    
+    int* flatInt = createFlatIntFrom2D(imageDataArray2D, width, height);
+    unsigned char* flatChar = createFlatCharFromInt(flatInt, width, height);
+    
+    for(int i = 1; i < length * 3 -2; i++)
+    {       
+        i++;        
+        i++;
+        flatChar[i] = 255;
+    }
+
+    flatInt = createFlatIntFromChar(flatChar, width, height);
+
+    int** returnArray = new int* [height];
+    returnArray[0] = new int[length];        
+    for(int j = 1; j < height; ++j) 
+    {
+        imageDataArray2D[j] = imageDataArray2D[j-1] + width;
+    }    
+    
+    returnArray = create2DFromInt(flatInt, width, height);
+
+    delete[] flatChar;
+    delete[] flatInt;
+    flatChar = NULL;
+    flatInt = NULL;
+
+    return returnArray;
+}
+
+
 int** createImageDataArray2D( int* width, int* height)
 {
     FILE* imageFile;
@@ -26,37 +194,12 @@ int** createImageDataArray2D( int* width, int* height)
         fclose(imageFile);
 
 
-        int wid = *width;
-        int hei = *height;
-        length = wid * hei;
+        int* imageDataArrayFlatInt =  createFlatIntFromChar(imageDataArrayFlatChar, *width, *height);
 
-        int imageDataArrayFlatInt[length];
-
-
-        for(int i = 0; i < length; i++)
-        {
-            unsigned char* bytes = (unsigned char*)(&imageDataArrayFlatInt[i]);
-            bytes[0] = 0;
-            bytes[1] = imageDataArrayFlatChar[i*3];
-            bytes[2] = imageDataArrayFlatChar[i*3+1];
-            bytes[3] = imageDataArrayFlatChar[i*3+2];
-        }
-
-
-
-        int** imageDataArray2D = new int* [*height];
-        imageDataArray2D[0] = new int[*width * *height];
+        int** imageDataArray2D = create2DFromInt(imageDataArrayFlatInt, *width, *height);
         
-        for(int j = 1; j < *height; ++j) 
-        {
-            imageDataArray2D[j] = imageDataArray2D[j-1] + *width;
-        }
-
-
-        for(int i = 0; i < *width * *height; ++i)
-        {
-            (*imageDataArray2D)[i] = imageDataArrayFlatInt[i];
-        }
+        delete[] imageDataArrayFlatInt;
+        imageDataArrayFlatInt = NULL;
                 
 
         return imageDataArray2D;
@@ -71,34 +214,22 @@ int** createImageDataArray2D( int* width, int* height)
 void writeCopyImage(int** imageDataArray2D, const int width, const int height, const char* fileName)
 {
 
-    int length = width * height;
+    int* imageDataArrayFlatInt = createFlatIntFrom2D(imageDataArray2D, width, height);
 
-    int imageDataArrayFlatInt[length];
-
-    unsigned char imageDataArrayFlatChar[length*3];
-
-
-    for(int i = 0; i < width * height; ++i)
-    {
-        imageDataArrayFlatInt[i] = (*imageDataArray2D)[i];   
-    }
-
-
-    for(int i = 0; i < length; i++)
-    {
-        unsigned char* bytes = (unsigned char*)(&imageDataArrayFlatInt[i]);
-        imageDataArrayFlatChar[i*3] = bytes[1];
-        imageDataArrayFlatChar[i*3+1] = bytes[2];
-        imageDataArrayFlatChar[i*3+2] = bytes[3];
-    }
+    unsigned char* imageDataArrayFlatChar = createFlatCharFromInt(imageDataArrayFlatInt, width, height);
+    
+    delete[] imageDataArrayFlatInt;
+    imageDataArrayFlatInt = NULL;
 
 
     FILE* copyImageFile = fopen(fileName, "w");
     fprintf(copyImageFile, "P6\n%d %d\n255",width, height);
 
-    fwrite(imageDataArrayFlatChar, sizeof(char),length*3, copyImageFile);
+    fwrite(imageDataArrayFlatChar, sizeof(char),width * height * 3, copyImageFile);
 
     fclose(copyImageFile);
-    
+
+    delete[] imageDataArrayFlatInt;
+    imageDataArrayFlatInt = NULL;  
 
 }
