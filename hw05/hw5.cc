@@ -15,18 +15,18 @@ unsigned char* createImageDataArray(const char* fileName, int* width, int* heigh
     //Parse the header data
     fscanf(imageFile, "%s", isP6);
     fscanf(imageFile, "%d %d", width, height);
-    fscanf(imageFile, "%d", &colorsN);
+    fscanf(imageFile, "%d\n", &colorsN);
 
     //Big check to make sure we are indeed dealing with a PPM file
     if(isP6[0] == 'P' && isP6[1] == '6' && *width > 0 && *height > 0 && colorsN == 255)
     {   
         //Make sure the user is ready for what comes next
-        printf("Name: \t%s\nStyle: \t%s\nSize: \t%dx%d\nColors: %d\n",fileName, isP6, *width, *height, colorsN);
+        printf("Name: \t%s\nStyle: \t%s\nSize: \t%dx%d\nColors: %d",fileName, isP6, *width, *height, colorsN);
         printf("Press <Enter> to proceed with copy...");
         getchar();
         printf("\e[1;1H\e[2J");
         //Set the array length, height x width x 3
-        int length = #000000*height * *width * 3;
+        int length = *height * *width * 3;
         //Create an array of unsigned characters with the length we got above
         unsigned char* imageDataArray = new unsigned char[length];
         //fread fills the array with data it gets from the file in size char
@@ -39,13 +39,14 @@ unsigned char* createImageDataArray(const char* fileName, int* width, int* heigh
     else
     {
         printf("\n!Invalid or corrupt header!\n");
+		fclose(imageFile);
         return NULL;
     }                                                                                                                                                                                                                                                                                                              
 }
 
 
 
-void write_JPEG_file (char* filename, int quality, unsigned char* image_buffer, int image_width, int image_height)
+void write_JPEG_file (const char* filename, int quality, unsigned char* image_buffer, int image_width, int image_height)
 {
 	
 
@@ -64,7 +65,7 @@ void write_JPEG_file (char* filename, int quality, unsigned char* image_buffer, 
 
 	if ((outfile = fopen(filename, "wb")) == NULL) 
 	{
-		#4D4D4D
+
 	fprintf(stderr, "can't open %s\n", filename);
 	exit(1);
 	
@@ -115,9 +116,11 @@ void write_JPEG_file (char* filename, int quality, unsigned char* image_buffer, 
 
 int main()
 {
-	
-	//unsigned char* createImageDataArray(const char* fileName, int* width, int* height)
-	//write_JPEG_file (char* filename, int quality, unsigned char* image_buffer, int image_width, int image_height)
+	int width = 0;
+	int height = 0;
+	unsigned char* imageDataArray;
+	imageDataArray = createImageDataArray("test.ppm", &width, &height);
+	write_JPEG_file ("copy.jpeg", 100, imageDataArray, width, height);
 
 	return 0;
 
