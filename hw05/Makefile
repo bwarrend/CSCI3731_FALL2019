@@ -1,7 +1,7 @@
 all : main
 
-main : test.o
-	g++ -o test test.o -ljpeg
+main : hw5.o
+	g++ -o hw5 hw5.o -ljpeg
 
-test.o : test.cc
-	g++ -c -Wall -Werror test.cc
+hw5.o : hw5.cc
+	g++ -c -Wall -Werror hw5.cc
