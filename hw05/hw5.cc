@@ -13,12 +13,12 @@ int main()
 	unsigned char* imageDataArray;
 
 	imageDataArray = createImageDataArray("test.ppm", &width, &height);
-	write_JPEG_file ("copy.jpeg", 100, imageDataArray, width, height);
+	write_JPEG_file ("copy.jpeg", 90, imageDataArray, width, height);
 
 	delete[] imageDataArray;
 	imageDataArray = NULL;
 
-	
+
 	return 0;
 
 }
