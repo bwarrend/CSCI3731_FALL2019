@@ -7,6 +7,13 @@ void clearArray(unsigned char* deleteMe)
     delete[] deleteMe;
     deleteMe = NULL;
 }
+
+
+void cls()
+{
+	printf("\e[1;1H\e[2J");
+}
+
 unsigned char* createImageDataArray(const char* fileName, int* width, int* height)
 {
     FILE* imageFile;
