@@ -2,7 +2,11 @@
 #include <cstdlib>
 #include <jpeglib.h>
 
-
+void clearArray(unsigned char* deleteMe)
+{
+    delete[] deleteMe;
+    deleteMe = NULL;
+}
 unsigned char* createImageDataArray(const char* fileName, int* width, int* height)
 {
     FILE* imageFile;
@@ -47,8 +51,6 @@ unsigned char* createImageDataArray(const char* fileName, int* width, int* heigh
         exit(1);
     }                                                                                                                                                                                                                                                                                                            
 }
-
-
 
 void write_JPEG_file (const char* filename, int quality, unsigned char* image_buffer, int image_width, int image_height)
 {
@@ -97,4 +99,85 @@ void write_JPEG_file (const char* filename, int quality, unsigned char* image_bu
 
 	fclose(outfile);
 	jpeg_destroy_compress(&cinfo);
+    
+}
+
+unsigned char* blueify(unsigned char* imageDataArray, int width, int height)
+{
+    int length = height * width * 3;
+    unsigned char* blueArray = new unsigned char[length];
+       
+    
+    for(int i = 0; i < length; i++)
+    {
+        blueArray[i] = imageDataArray[i];
+        i++;
+        blueArray[i] = imageDataArray[i];
+        i++;
+        blueArray[i] = 255;
+    }
+
+    return blueArray;
+}
+
+
+unsigned char* redify(unsigned char* imageDataArray, int width, int height)
+{
+    int length = height * width * 3;
+    unsigned char* redArray = new unsigned char[length];
+       
+    
+    for(int i = 0; i < length; i++)
+    {
+        redArray[i] = 255;
+        i++;
+        redArray[i] = imageDataArray[i];
+        i++;
+        redArray[i] = imageDataArray[i];
+    }
+
+    return redArray;
+}
+
+unsigned char* greenify(unsigned char* imageDataArray, int width, int height)
+{
+    int length = height * width * 3;
+    unsigned char* greenArray = new unsigned char[length];
+       
+    
+    for(int i = 0; i < length; i++)
+    {
+        greenArray[i] = imageDataArray[i];
+        i++;
+        greenArray[i] = 255;
+        i++;
+        greenArray[i] = imageDataArray[i];
+    }
+
+    return greenArray;
+}
+
+unsigned char* greyScale(unsigned char* imageDataArray, int width, int height)
+{
+    int length = height * width * 3;
+    unsigned char* greyArray = new unsigned char[length];
+
+    for(int i = 0; i < length; i++)
+    {
+        int mean = 0;
+        mean += imageDataArray[i];
+        mean += imageDataArray[i+1];
+        mean += imageDataArray[i+2];
+
+        mean /= 3;
+        
+        greyArray[i] = mean;
+        i++;
+        greyArray[i] = mean;
+        i++;
+        greyArray[i] = mean;
+    }
+
+    return greyArray;
+    
 }
