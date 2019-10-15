@@ -2,18 +2,24 @@
 #include <cstdlib>
 #include <jpeglib.h>
 
+//Function to clear out whatever array is passed to it
+//
 void clearArray(unsigned char* deleteMe)
 {
     delete[] deleteMe;
     deleteMe = NULL;
 }
 
-
+//Clear the terminal
+//
 void cls()
 {
 	printf("\e[1;1H\e[2J");
 }
 
+// Create an array of image data give the name of the file, and a pointer to the 
+//width and height
+//
 unsigned char* createImageDataArray(const char* fileName, int* width, int* height)
 {
     FILE* imageFile;
@@ -59,8 +65,12 @@ unsigned char* createImageDataArray(const char* fileName, int* width, int* heigh
     }                                                                                                                                                                                                                                                                                                            
 }
 
+//Function to write a jpeg file given a file name, width/height, and an array of RGB unsgined chars
+//
 void write_JPEG_file (const char* filename, int quality, unsigned char* image_buffer, int image_width, int image_height)
 {
+    //Create the required structs cinfo and jerr
+    //
 	struct jpeg_compress_struct cinfo;
 	struct jpeg_error_mgr jerr;
 
@@ -72,7 +82,8 @@ void write_JPEG_file (const char* filename, int quality, unsigned char* image_bu
 
 	jpeg_create_compress(&cinfo);
 
-
+    //Check if we can open the file with the given filename
+    //
 	if ((outfile = fopen(filename, "wb")) == NULL) 
 	{
 
@@ -81,6 +92,9 @@ void write_JPEG_file (const char* filename, int quality, unsigned char* image_bu
 	
 	}
 
+    //Set up the cinfo struct with width, height, amount of components and
+    // an enum that we are setting to JCS_RGB
+    //
 	jpeg_stdio_dest(&cinfo, outfile);
 
 	cinfo.image_width = image_width;
@@ -92,6 +106,8 @@ void write_JPEG_file (const char* filename, int quality, unsigned char* image_bu
 	jpeg_set_quality(&cinfo, quality, TRUE);
 	jpeg_start_compress(&cinfo, TRUE);
 
+    //Set the length and write to the file
+    //
 	row_stride = image_width * 3;
 
 	while (cinfo.next_scanline < cinfo.image_height) 
@@ -102,6 +118,8 @@ void write_JPEG_file (const char* filename, int quality, unsigned char* image_bu
         
 	}
 
+    //Finish the job
+    //
 	jpeg_finish_compress(&cinfo);
 
 	fclose(outfile);
@@ -109,6 +127,8 @@ void write_JPEG_file (const char* filename, int quality, unsigned char* image_bu
     
 }
 
+//Take in image data and return image data that has been blueified
+//
 unsigned char* blueify(unsigned char* imageDataArray, int width, int height)
 {
     int length = height * width * 3;
@@ -127,7 +147,8 @@ unsigned char* blueify(unsigned char* imageDataArray, int width, int height)
     return blueArray;
 }
 
-
+//Take in image data and return image data that has been redified
+//
 unsigned char* redify(unsigned char* imageDataArray, int width, int height)
 {
     int length = height * width * 3;
@@ -146,6 +167,8 @@ unsigned char* redify(unsigned char* imageDataArray, int width, int height)
     return redArray;
 }
 
+//Take in image data and return image data that has been greenified
+//
 unsigned char* greenify(unsigned char* imageDataArray, int width, int height)
 {
     int length = height * width * 3;
@@ -164,6 +187,8 @@ unsigned char* greenify(unsigned char* imageDataArray, int width, int height)
     return greenArray;
 }
 
+//Take in image data and return image data that has been greyscaled
+//
 unsigned char* greyScale(unsigned char* imageDataArray, int width, int height)
 {
     int length = height * width * 3;

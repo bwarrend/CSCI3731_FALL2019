@@ -1,5 +1,4 @@
 #include <cstdio>
-
 #include "hw5Func.h"
 
 
@@ -7,18 +6,23 @@
 
 int main()
 {
+	//Declare some variable
+	//
 	int width = 0;
 	int height = 0;
 	unsigned char* imageDataArray;
 	const char* fileName = "test.ppm";
 	int jpegQuality = 90; //1%-100%
 
+	//Create an array fro the image with the name stored in fileName
+	//
 	imageDataArray = createImageDataArray(fileName, &width, &height);
 
 	
+	//Menu that will exit the program if 9 is entered
+	//
 	int menuChoice = 0;
-	cls();
-	
+	cls();	
     while(menuChoice != 9)
     {        
         printf("**%s**\n%dx%d\n\n", fileName, width, height);
