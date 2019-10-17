@@ -1,9 +1,10 @@
 #ifndef ANGLE_H
 #define ANGLE_H
 
-
+//CLASS Angle
+//
+//
 class Angle {
-
 
 private:
 
@@ -36,8 +37,6 @@ public:
     bool operator==(const Angle& a) const;
 
     friend std::ostream& operator<<(std::ostream& out, const Angle& angleP);
-
-
 
     virtual ~Angle();
 };
