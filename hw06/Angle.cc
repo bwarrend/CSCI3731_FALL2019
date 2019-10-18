@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Angle.h"
 
-//Constructor - No args
+//Constructor - No args - I don't know why, maybe I'll use it someday
 //
 Angle::Angle() {
 }

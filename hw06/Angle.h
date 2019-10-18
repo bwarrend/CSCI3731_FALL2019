@@ -1,7 +1,7 @@
 #ifndef ANGLE_H
 #define ANGLE_H
 
-//CLASS Angle
+//Class Angle
 //
 //
 class Angle {

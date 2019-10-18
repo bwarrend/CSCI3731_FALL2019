@@ -4,7 +4,7 @@
 
 int main() {
 
-    //Set up 3 angle objects using two different constructors
+    //Set up three angle objects using two different constructors
     //
     Angle a1;
     Angle a2;    

@@ -1,0 +1,98 @@
+Brett Warrender
+HW06 - Short Answers
+
+1.  What is wrong with the following code and how would you fix it?
+
+#ifndef PROJECTILE_H
+#define PROJECTILE_H
+
+class Projectile {
+    
+    private:
+        double position;
+        double velocity;
+    
+    public:
+        Projectile(double position, double velocity);
+        virtual  ̃Projectile();
+        double getPosition() const;
+        double getVelocity() const;
+    
+} // end of Projecile class
+
+#endif
+
+
+There is no semicolon after Projectile class's final bracket.  We could 
+add one.
+
+
+
+2.  The following is the definition of the constructor for the 
+Projectile class above, but there are three things wrong with it. What 
+are they and how would you fix them?
+
+Projectile(int position, int velocity) {
+    this.position = position;
+    this.velocity = velocity;
+
+}   //  end of constructor
+
+
+We don't know what class this constructor belongs to. Add Projectile:: 
+in front of it.  The integers are not being changed once they are in 
+the constructor so they should be constant.  Velocity and position are 
+declared as doubles but the constructor takes ints; change arguments 
+to doubles.
+
+
+3. Describe each of the following methods:
+(a)  int* method(int* arg);
+(b)  const int* method(int* arg);
+(c)  const int* const method(int* arg);
+(d)  const int* const method(const int* arg);
+(e)  const int* const method(const int* arg) const;
+
+(a) Takes pointer to an int and returns a pointer to an int
+(b) Takes a pointer to an int and returns a pointer to a const int
+(c) Takes a pointer to an int and returns a constant pointer to a 
+    constant int
+(d) Takes a pointer to a constant int and returns a constant pointer 
+    to a constant int\
+(e) Method is constant and takes a pointer to a constant int and 
+    returns a constant pointer to a constant int
+
+
+4.  In what ways are C++ strings better than C strings?  In what ways 
+are C strings better thanC++ strings?
+
+    C strings are better than C++ strings in a few ways.  Mainly, 
+    they are lightweight, quick and dirty.  A C-string is simply 
+    an array of characters so they only require memory for the 
+    actual data being stored.  Because they are arrays of chars, 
+    they can be interchanged with arrays and functions that 
+    operatre on arrays.  When peak performance is required,
+    C-strings will be a better bet.  String literals are C-strings 
+    so no conversion is required.  Both C and C++ programs take 
+    C strings as command line arguments.  C++ strings are 
+    superior in many ways however.  C++ strings are treated a lot 
+    like a primitive data type.  They store their own size.  C++ 
+    strings are much more secure and handle memory bounds for the 
+    user.  C strings can write characters far out of bounds and cause
+    seg faults or worse.  C++ strings do not need to be null terminated.
+    Comparing, concatinating, and changing C++ strings is a lot more 
+    intuitive because they utilize arhitmetic overloads.
+
+
+5.  What is the difference between a pointer and a reference?
+    References are basically pointers but are a little less confusing
+    to work with but also do not provide all of the flexibility of a 
+    pointer.  References automatically dereferenced but need to be 
+    assigned when declared, cannot change what they reference, and 
+    cannot be null.
+
+6.  What is a destructor for?
+    A destructor is called automatically when an object is deleted
+    and is used for doing any sort of last minute house keeping.  
+    The destructor could be used for deleting heap memory or even
+    closing files. 
