@@ -23,23 +23,15 @@ private:
 
 public:
 
-    //Fish();
     Fish(int x, int y, int speed, int turnSpeed, int initialDirection, Population& popu);
 
     const int getX() const;
-
     const int getY() const;
-
     const double getDirection() const;
-
     void swim();    
-
 
     virtual ~Fish();
 };
-
-
-void printFishy(Fish& fish);
 
 
 #endif

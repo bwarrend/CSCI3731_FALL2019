@@ -16,27 +16,21 @@ private:
 
 public:
 
-
     Population(int maxFishes);
 
     void addFish(Fish* fish);
-
     void printSomething() const;
-
     void removeFish(int index);
     void removeFish(Fish* fish);
-
     const int getPopCount() const;
     const int getMaxFishes() const;
-
     Fish* getFish(int index) const;
-
 
     virtual ~Population();
 };
 
-
 void cls();
+int rRange(int min, int max);
 
 
 #endif
