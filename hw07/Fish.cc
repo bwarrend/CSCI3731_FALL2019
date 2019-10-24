@@ -42,7 +42,7 @@
 
     void printFishy(Fish& fish){
         
-    std::cout << "Fish   x: " << fish.getX() << "   y: " << fish.getY()
+        std::cout << "Fish   x: " << fish.getX() << "   y: " << fish.getY()
             << "   Angle: " << fish.getDirection() << std::endl;
     }
 

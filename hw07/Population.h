@@ -36,4 +36,7 @@ public:
 };
 
 
+void cls();
+
+
 #endif
