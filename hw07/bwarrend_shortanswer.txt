@@ -1,0 +1,31 @@
+Brett Warrender HW07 Short Answer
+
+
+1. What does the friend keyword do?
+	Normally, a function would not have access to a classes private members.  With the use of Friend, 
+a function is given special access to the private and protected members of the class.
+
+
+2. Why should you never use 'using namespace std;'?
+	When using namespace std, you run the risk of name collisions between the std library and any
+other library.  It is better to explicitly specify the namespace before using one of its methods/functions.
+
+3. Why is memory management in C++ hard?
+	Memory managment is hard because C++ is not your friend and does not care about you.  While creating
+a program, it is our responsibility to ensure that everything on the heap gets deleted in a timely fashion. 
+If not, it can cause memory leaks.  The hard part is just keeping track of what owns what and where things 
+get deleted and making sure that they only get deleted once.
+
+4. Describe the concept of "ownership", as it pertains to memory mangement in C++.
+	Ownership is a way of keeping track of everything that is stored on the heap.  It needs to be 
+deleted at some point or the program can leak.  It is necessary to dole out this responsibility so that 
+heap data is deleted once and only once.
+
+5. What are the three ways that a class can contain objects in C++?
+	The three ways that a class can contain objects in C++ are actual objects, references, and pointers.
+
+6. What is a forward declaration and why would you use one?
+	A forward declaration is used when two different classes need to refer to each other.  You cannot 
+simply include the headers because one of them will have already been defined as the compiler goes through 
+the first class.  A forward declaration has limited use, pointers and references, but tells the compiler 
+that there exists this other class that we are going to point to or reference.  
