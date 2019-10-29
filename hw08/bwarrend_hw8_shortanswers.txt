@@ -1,0 +1,34 @@
+Brett Warrender
+HW8 Short Answers
+
+
+1. What is the rule of five?
+	Old rule of 3.  If you do any of the following, you must do all of them:
+	- Copy assignment operator using =
+	- Copy Constructor
+	- Move assignment operator using =
+	- Move Constructor
+	- Destructor
+
+2. What is the difference between a copy and a move in C++?
+	Copying is a way of making two of the same thing, but have them 
+completely independent of one another.  Preserve the original thing.  Moves happen 
+when original is just a temproray and the compiler cannot copy elide, or std::move 
+is explicitly used.
+
+
+3. What is copy elision?
+	Copy elision is a compiler optimization where the compiler, under the correct 
+ conditions, can skip extra steps when creating a copy of an object. The compiler is 
+not required to do this, but can, sometimes.
+
+
+4. What is a smart pointer?
+	A class that pretends to be a pointer by overloading the * and -> operators 
+generally used by pointers.  A smart pointer, contains an actual pointer, and can do 
+its own garbage collection and keep track of ownership.
+
+
+5.  How can you prevent someone from copying a class you wrote?
+	Write an operator overload for = in the header file and set it to delete which 
+which essentially disables the default copy method for the compiler. 
