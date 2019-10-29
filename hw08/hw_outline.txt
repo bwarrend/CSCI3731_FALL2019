@@ -1,0 +1,15 @@
+image class
+
+
+	int width;
+	int height;
+	pixel data array;
+
+-no arg constructor
+	-set width height to -1
+	-set pixel data to nullptr
+
+implement the rule of 5
+delete pointer to Pixel data in destructor
+
+C I/O is fine
