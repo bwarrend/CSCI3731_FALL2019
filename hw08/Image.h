@@ -15,9 +15,17 @@ private:
 public:
 
     Image();
+    Image(Image&& img);
+    Image(const Image& img);
 
-    void createImageDataArray(const char* fileName);
-    void write_JPEG_file (const char* filename, int quality);
+    void createImageDataArray(std::string fileName);
+    void writeJPEG (std::string fileName, int quality);
+    void writePPM(std::string fileName);
+
+    Image& operator=(Image&& img);
+    Image& operator=(const Image& img);
+
+    Image& operator++();
 
 
     virtual ~Image();

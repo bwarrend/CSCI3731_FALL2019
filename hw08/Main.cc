@@ -1,18 +1,49 @@
 #include <iostream>
 #include "Image.h"
+#include <string>
 
 
 int main(){
 
     Image img;
-    std::cout << "got here";
-    img.createImageDataArray("test.ppm");
-    std::cout << "and here";
-    img.write_JPEG_file("Jpeg_copy.jpeg", 100);
-    std::cout << "no chance";
+    const std::string FILE_NAME = "test";
+    const std::string FILE_SUFFIX = ".ppm";
+    const int JPEG_QUALITY = 90;
 
+    img.createImageDataArray(FILE_NAME+FILE_SUFFIX);
 
+    img.writeJPEG(FILE_NAME, JPEG_QUALITY);
+    img.writePPM(FILE_NAME);
 
+    Image newimg;
+    newimg = img;
+    
+    newimg.writeJPEG("newimg", JPEG_QUALITY);
+
+    Image& imgRef = img;
+    Image newerimg = Image(imgRef);
+
+    newimg.writeJPEG("newerimg", JPEG_QUALITY);
+    
+    //newimg.writeJPEG("newimg", JPEG_QUALITY);
+    img.writeJPEG("oldimg", JPEG_QUALITY);
+
+    ++img;
+
+    img.writeJPEG("stretch", JPEG_QUALITY);
+    
+
+    
+    //Just making it easier on myself to test program out several times.
+    //
+    std::cout << "Remove copies? (WARNING: system call)  [y/N]: ";
+    std::string a = "no";
+    getline(std::cin, a);    
+    if(a == "y" || a == "Y" || a == "yes" || a == "YES"){
+        system("rm test.jpeg test_copy.ppm oldimg.jpeg newimg.jpeg newerimg.jpeg stretch.jpeg");
+    }  
+    //
+    //
 
     return 0;
 }

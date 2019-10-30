@@ -3,61 +3,84 @@
 #include <jpeglib.h>
 #include <cstdio>
 #include <cstdlib>
-
-
+#include <string>
 
 
 Image::Image() {
     width = -1;
     height = -1;
     imageDataArray = nullptr;
-    std::cout << "Made an image obj" << std::endl;
 }
 
+//Copy constructor
+Image::Image(const Image& img){
+    width = img.width;
+    height = img.height;
+    int length = width * height * 3;
 
-void Image::createImageDataArray(const char* fileName){
+    this->imageDataArray = new unsigned char[length];
+
+    for(int i = 0; i < length; ++i){
+        this->imageDataArray[i] = img.imageDataArray[i];
+    }
+}
+
+//Move constructor
+Image::Image(Image&& img){
+    width = img.width;
+    height = img.height;
+    int length = width * height * 3;
+    delete imageDataArray;
+    this->imageDataArray = new unsigned char[length];
+
+    for(int i = 0; i < length; ++i){
+        this->imageDataArray[i] = img.imageDataArray[i];
+    }
+
+    img.imageDataArray = nullptr;
+}
+
+void Image::createImageDataArray(std::string fileName){
     FILE* imageFile;
     char isP6[2];
     int colorsN = 0;
 
 
-    if( (imageFile = fopen(fileName, "rb")) != nullptr){
-        std::cout << "image exists: " << fileName << std::endl;    
+    if( (imageFile = fopen(fileName.c_str(), "rb")) != nullptr){  
         //Open the file
-        imageFile = fopen(fileName, "rb");
+        imageFile = fopen(fileName.c_str(), "rb");
         //Parse the header data
         fscanf(imageFile, "%s", isP6);
         fscanf(imageFile, "%d %d", &width, &height);
         fscanf(imageFile, "%d\n", &colorsN);
-        std::cout << "Got image info" << width << " x " << height << " -- " << colorsN << std::endl;
-
         //Big check to make sure we are indeed dealing with a PPM file
         if(isP6[0] == 'P' && isP6[1] == '6' && width > 0 && height > 0 && colorsN == 255){
-            std::cout << "yes it's a ppm" << std::endl; 
         
             //Set the array length, height x width x 3
             int length = height * width * 3;
             imageDataArray = new unsigned char[length];
-            std::cout << "length  =   " << length << std::endl;
             //fread fills the array with data it gets from the file in size char
             fread(imageDataArray, sizeof(char), length, imageFile);
-            std::cout << "Read the file with fread" << std::endl;
             //always close
             fclose(imageFile);    
 
         }else{
-            printf("\n!Invalid or corrupt header!\n");
+            std::cout << std::endl << "!Invalid or corrupt header!" << std::endl;
             fclose(imageFile);
         }
     }else{
-        printf("Cannot find file: '%s'\n", fileName);
-       //exit(1);
+        std::cout << "Cannot find file: " << fileName << std::endl;
     }                                                                                                                                                                                                                                                                                                            
 }
 
 //Function to write a jpeg
 //
-void Image::write_JPEG_file (const char* filename, int quality)/*, unsigned char* image_buffer, int image_width, int image_height)*/{
+void Image::writeJPEG (std::string fileName, int quality){
+    if(imageDataArray == nullptr){
+        return;
+    }
+    
+    
     //Create the required structs cinfo and jerr
     //
 	struct jpeg_compress_struct cinfo;
@@ -71,12 +94,10 @@ void Image::write_JPEG_file (const char* filename, int quality)/*, unsigned char
 
 	jpeg_create_compress(&cinfo);
 
-    //Check if we can open the file with the given filename
+    //Check if we can open the file with the given fileName
     //
-	if ((outfile = fopen(filename, "wb")) == NULL) 
-	{
-
-        fprintf(stderr, "can't open %s\n", filename);
+	if ((outfile = fopen((fileName+".jpeg").c_str(), "wb")) == NULL) {
+        std::cout << "Can't open " << fileName+".jpeg" << std::endl;
         exit(1);
 	
 	}
@@ -99,8 +120,7 @@ void Image::write_JPEG_file (const char* filename, int quality)/*, unsigned char
     //
 	row_stride = width * 3;
 
-	while (cinfo.next_scanline < cinfo.image_height) 
-	{
+	while (cinfo.next_scanline < cinfo.image_height){
 
         row_pointer[0] = & imageDataArray[cinfo.next_scanline * row_stride];
         (void) jpeg_write_scanlines(&cinfo, row_pointer, 1);
@@ -115,6 +135,85 @@ void Image::write_JPEG_file (const char* filename, int quality)/*, unsigned char
 	jpeg_destroy_compress(&cinfo);
     
 }
+
+void Image::writePPM(std::string fileName){   
+    //Create the file
+    FILE* copyImageFile = fopen((fileName+"_copy.ppm").c_str(), "wb");
+    //Place the header information, based on the standard and the given lxw
+    fprintf(copyImageFile, "P6\n%d %d\n255\n", width, height);
+    //write in the image data from the array
+    fwrite(imageDataArray, sizeof(char), height * width * 3, copyImageFile);
+    //close her up
+    fclose(copyImageFile);    
+}
+
+
+Image& Image::operator++() {
+    int length = width * height * 3;
+    
+    unsigned char tmpData[length];
+    
+    for(int i = 0; i < length; ++i){
+        tmpData[i] = imageDataArray[i]; 
+    }
+    
+    delete[] imageDataArray;
+
+    width = width * 2;
+    imageDataArray = new unsigned char[(length * 4)];
+
+    int j = 0;
+
+    for(int i = 0; i < length; ++i){
+        imageDataArray[j] = tmpData[i];
+        imageDataArray[j+3] = tmpData[i];
+        i++;
+        j++;
+        imageDataArray[j] = tmpData[i];
+        imageDataArray[j+3] = tmpData[i];
+        i++;
+        j++;
+        imageDataArray[j] = tmpData[i];
+        imageDataArray[j+3] = tmpData[i];
+        j+=4;
+        
+    }
+
+    return *this;
+}
+
+
+
+//Move =
+Image& Image::operator=(Image&& img) {
+    width = img.width;
+    height = img.height;
+    int length = width * height * 3;
+    this->imageDataArray = new unsigned char[length];
+    delete imageDataArray;
+    for(int i = 0; i < length; ++i){
+        this->imageDataArray[i] = img.imageDataArray[i];
+    }
+    
+    img.imageDataArray = nullptr;
+
+    return *this;
+}
+
+//Copy =
+Image& Image::operator=(const Image& img){
+    width = img.width;
+    height = img.height;
+    int length = width * height * 3;
+    this->imageDataArray = new unsigned char[length];
+
+    for(int i = 0; i < length; ++i){
+        this->imageDataArray[i] = img.imageDataArray[i];
+    }
+    
+    return *this;
+}
+
 
 Image::~Image(){
     delete[] imageDataArray;
