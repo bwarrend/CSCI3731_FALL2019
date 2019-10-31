@@ -7,7 +7,6 @@
 class Image {
 
 private:
-
     int width;
     int height;
     unsigned char* imageDataArray;    
@@ -26,6 +25,7 @@ public:
     Image& operator=(const Image& img);
 
     Image& operator++();
+    Image& operator--();
 
 
     virtual ~Image();

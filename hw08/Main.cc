@@ -32,6 +32,13 @@ int main(){
 
     img.writeJPEG("stretch", JPEG_QUALITY);
     
+    ++img;
+
+    img.writeJPEG("extrastretchy", JPEG_QUALITY);
+
+    --newimg;
+    newimg.writeJPEG("shrunk", JPEG_QUALITY);
+    
 
     
     //Just making it easier on myself to test program out several times.
@@ -40,7 +47,7 @@ int main(){
     std::string a = "no";
     getline(std::cin, a);    
     if(a == "y" || a == "Y" || a == "yes" || a == "YES"){
-        system("rm test.jpeg test_copy.ppm oldimg.jpeg newimg.jpeg newerimg.jpeg stretch.jpeg");
+        system("rm test.jpeg test_copy.ppm oldimg.jpeg newimg.jpeg newerimg.jpeg stretch.jpeg extrastretchy.jpeg shrunk.jpeg");
     }  
     //
     //

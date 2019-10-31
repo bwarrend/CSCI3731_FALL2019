@@ -29,20 +29,10 @@ Image::Image(const Image& img){
 Image::Image(Image&& img){
     width = img.width;
     height = img.height;
+    //delete[] imageDataArray;
+    imageDataArray = img.imageDataArray;
     
-    this->imageDataArray = img.imageDataArray;
-
-     /*\
-    /   \
-    int length = width * height * 3;
-    delete imageDataArray;
-    for(int i = 0; i < length; ++i){
-        this->imageDataArray[i] = img.imageDataArray[i];
-    }
-    \   /
-     \*/
-     
-
+    
     img.imageDataArray = nullptr;
 }
 
@@ -82,10 +72,11 @@ void Image::createImageDataArray(std::string fileName){
 //Function to write a jpeg
 //
 void Image::writeJPEG (std::string fileName, int quality){
+    
+    //If our array is set to nullptr, let's bail.
     if(imageDataArray == nullptr){
         return;
-    }
-    
+    }    
     
     //Create the required structs cinfo and jerr
     //
@@ -153,7 +144,8 @@ void Image::writePPM(std::string fileName){
     fclose(copyImageFile);    
 }
 
-
+//++ operator doubles up the pixels width wise to stretch the image
+//
 Image& Image::operator++() {
     int length = width * height * 3;
     
@@ -165,24 +157,50 @@ Image& Image::operator++() {
     
     delete[] imageDataArray;
 
-    width = width * 2;
-    imageDataArray = new unsigned char[(length * 4)];
+    width *= 2;
+    imageDataArray = new unsigned char[(length * 2)];
 
     int j = 0;
 
     for(int i = 0; i < length; ++i){
         imageDataArray[j] = tmpData[i];
         imageDataArray[j+3] = tmpData[i];
-        i++;
-        j++;
+        ++i;
+        ++j;
         imageDataArray[j] = tmpData[i];
         imageDataArray[j+3] = tmpData[i];
-        i++;
-        j++;
+        ++i;
+        ++j;
         imageDataArray[j] = tmpData[i];
         imageDataArray[j+3] = tmpData[i];
         j+=4;
         
+    }
+
+    return *this;
+}
+
+Image& Image::operator--() {
+    int length = width * height * 3;
+    
+    unsigned char tmpData[length];
+    
+    for(int i = 0; i < length; ++i){
+        tmpData[i] = imageDataArray[i]; 
+    }
+    
+    delete[] imageDataArray;
+
+    width /= 2;
+    imageDataArray = new unsigned char[(length/2)];
+
+    int j = 0;
+
+    for(int i = 0; i < length; ++i){
+        imageDataArray[++j] = tmpData[++i];
+        imageDataArray[++j] = tmpData[++i];
+        imageDataArray[++j] = tmpData[++i];
+        i+=2;       
     }
 
     return *this;
@@ -194,13 +212,8 @@ Image& Image::operator++() {
 Image& Image::operator=(Image&& img) {
     width = img.width;
     height = img.height;
-    int length = width * height * 3;
-    this->imageDataArray = new unsigned char[length];
-    delete imageDataArray;
-    for(int i = 0; i < length; ++i){
-        this->imageDataArray[i] = img.imageDataArray[i];
-    }
-    
+    delete[] imageDataArray;
+    imageDataArray = img.imageDataArray;    
     img.imageDataArray = nullptr;
 
     return *this;
