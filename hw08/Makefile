@@ -1,4 +1,8 @@
-all : gitadd
+all : hw8
+git : commit
+
+commit : gitadd
+	git commit -m "Auto"
 
 gitadd : hw8
 	git add Makefile Main.cc Image.cc Image.h

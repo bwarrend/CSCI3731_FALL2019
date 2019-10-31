@@ -41,6 +41,7 @@ Image::Image(Image&& img){
     }
     \   /
      \*/
+     
 
     img.imageDataArray = nullptr;
 }
