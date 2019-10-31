@@ -29,13 +29,18 @@ Image::Image(const Image& img){
 Image::Image(Image&& img){
     width = img.width;
     height = img.height;
+    
+    this->imageDataArray = img.imageDataArray;
+
+     /*\
+    /   \
     int length = width * height * 3;
     delete imageDataArray;
-    this->imageDataArray = new unsigned char[length];
-
     for(int i = 0; i < length; ++i){
         this->imageDataArray[i] = img.imageDataArray[i];
     }
+    \   /
+     \*/
 
     img.imageDataArray = nullptr;
 }

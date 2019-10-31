@@ -1,4 +1,7 @@
-all : hw8
+all : gitadd
+
+gitadd : hw8
+	git add Makefile Main.cc Image.cc Image.h
 
 hw8 : Main.o Image.o ; clear ;
 	g++ -o hw8 Main.o Image.o -ljpeg
