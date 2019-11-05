@@ -70,3 +70,5 @@ DrunkenFish     FlippyFish
 swim()          direction          
                 turn_rate
                 swim()
+
+exception for things, maybe get method if there isnt a fish there
