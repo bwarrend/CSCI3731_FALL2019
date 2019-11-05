@@ -1,0 +1,72 @@
+1. What is the difference between "downcasting" and "upcasting"?
+    Upcasting is where you take a child object and turn it into an 
+    object of its parent's type.  Any specificity of the original 
+    type is lost.  Downcasting is the opposite. Turn the parent 
+    tpye into an object of its child type.  Dynamic casting is a 
+    way to downcast. 
+
+
+2. Why would you mark a method as virtual?  Why wouldn't you?
+    You would mark a method virtual if you wanted a subclass to 
+    override it.  Don't mark a method virtual if you always want 
+    the super classes method to be called.
+
+
+ 
+ 3. What is the different between a dynamic cast and static cast? 
+    Why would you use one over the other?
+    Dynamic casts are considered slower because they have to search 
+    through the inheritance tree to ensure the types are valid.  
+    Dynamic casting is safer though and returns nullptr if it's not 
+    valid.  Static casts check validity at compile time.
+
+
+
+4.  When might you use a const cast?
+    You use a const cast to remove the constant part of an object.  You 
+    would use it if you are using someone else's code and they have a 
+    method that does not take a constant.  
+
+
+5. Suppose you have a Fruit base class and a Banana subclass.  Suppose 
+    you have declared banana like this:
+    
+    Banana b;
+    
+    What is the different between what happens when you pass your 
+    banana to a method declared like this:
+
+    void eat(Fruit f);
+    vs. one declared like this:
+    void eat (const Fruit& f);
+
+    
+
+
+
+
+
+
+6.  What is the different between how Java and C++ handle multiple 
+    inheritance?
+    You can have more than one super class in C++ but cannot in Java. 
+    In Java, you can use an interface class.  
+
+
+
+
+
+    7.
+
+            FISH
+        LocationX
+        LocationY
+        Speed
+        Pure virtual swim()
+
+
+
+DrunkenFish     FlippyFish
+swim()          direction          
+                turn_rate
+                swim()
