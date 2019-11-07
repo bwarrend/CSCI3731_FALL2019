@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Population.h"
 #include "Fish.h"
+#include "Exception.h"
 
 //Constructor: Use arg to make array of pointers of fish
 //
@@ -24,9 +25,21 @@ void Population::addFish(Fish* fish){
 
 //Remove fish based on index
 //
-void Population::removeFish(int index){
+void Population::removeFish(int index){   
+
+    try{
+    
+        if(fishList[index] == nullptr){
+            throw(Exception("No fish to delete at given index"));
+        }
+            fishList[index] = nullptr;
+        
+    } catch(Exception& e){
+        std::cerr << e.what() << std::endl;
+        exit(1);
+    }
+
     --popCount;
-    fishList[index] = nullptr;
 }
 
 //Remove fish based on a reference to a fish, using the index method above
@@ -43,7 +56,7 @@ void Population::removeFish(Fish* fish){
 //Return reference to a fish based on index provided
 //
 Fish* Population::getFish(int index) const{
-    return fishList[index];
+    return fishList[index];    
 }
 
 //Return how many fish exist

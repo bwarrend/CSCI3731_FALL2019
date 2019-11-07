@@ -4,8 +4,8 @@ git : gitadd
 gitadd : hw9
 	git add Makefile Main.cc Angle.cc Angle.h DrunkenFish.cc DrunkenFish.h Fish.cc Fish.h FlippyFish.cc FlippyFish.h Population.cc Population.h Exception.cc Exception.h bwarrend_shortanswers_hw9.txt
 	
-hw9 : Main.o Fish.o DrunkenFish.o FlippyFish.o Angle.o Population.o ; reset
-	g++ -o hw9 Main.o Fish.o Angle.o Population.o DrunkenFish.o FlippyFish.o
+hw9 : Main.o Fish.o DrunkenFish.o FlippyFish.o Angle.o Population.o Exception.o ; reset
+	g++ -o hw9 Main.o Fish.o Angle.o Population.o DrunkenFish.o FlippyFish.o Exception.o
 
 Main.o : Main.cc Fish.h Angle.h Population.h ; clear
 	g++ -c -Wall -Werror Main.cc

@@ -8,9 +8,6 @@
 #include "Population.h"
 #include <typeinfo>
 
-
-
-
 int main(){
 
     //Seed rng set up some constant fish related paramters
@@ -19,6 +16,9 @@ int main(){
     const int MAX_POP = 20000;
     Population fishList(MAX_POP);
     Population& flRef = fishList;
+    
+    //Test Error - Doesn't need to exit but easier to see that it works
+    //fishList.removeFish(4);
 
     //Both fish initial values
     //
@@ -32,12 +32,12 @@ int main(){
 
     //FlippyFishOnly.com
     //
-    const int SWIM_SP = 4;
+    const int SWIM_SP = 2;
     const int TURN_SP = 45;    
     const int INIT_DIR = 90;
 
 
-    int flippyCount = INIT_POPULATION-3000;
+    int flippyCount = INIT_POPULATION;
 
     for (int i = 0; i < flippyCount; ++i){
         new FlippyFish(INIT_X, INIT_Y, SWIM_SP, TURN_SP, INIT_DIR, flRef);    
@@ -85,6 +85,8 @@ int main(){
     }else{
         std::cout << std::endl << "Miraculously, a draw.." << std::endl; 
     }
+
+
 
     return 0;
 }
