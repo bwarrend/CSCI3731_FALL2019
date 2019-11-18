@@ -10,7 +10,7 @@ hw10 : Main.o Fish.o Angle.h DrunkenFish.o FlippyFish.o Exception.o ; reset
 Main.o : Main.cc Fish.h Angle.h; clear
 	g++ -c -Wall -Werror Main.cc
 
-Fish.o : Fish.cc Fish.h Angle.cc Angle.h
+Fish.o : Fish.cc Fish.h Angle.h
 	g++ -c -Wall -Werror Fish.cc
 
 FlippyFish.o : FlippyFish.cc FlippyFish.h Fish.o
