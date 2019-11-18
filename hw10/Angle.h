@@ -1,47 +1,154 @@
 #ifndef ANGLE_H
 #define ANGLE_H
+#include <iostream>
+#include <cmath>
+#include "Angle.h"
 
 //Class Angle
 //
 //
-class Angle {
+template <class T> class Angle {
 
-private:
+    private:
 
-    double angle = 0.0;    
+        T angle = 0.0;    
 
-public:
+    public:
 
-    Angle();
-    Angle(const double angle);
+        //Constructor - Take angle as arg
+        //
+        Angle(const T angle) {
+            setAngle(angle);
+        }
+        //
 
-    void setAngle(const double angle);
-    double getAngle() const;
+        //Set angle and ensure it is within from 0-359 inclusive
+        //
+        void setAngle(const T angleIn) {
+            angle = angleIn;
+            
+            while(angle >= 360){
+                angle -= 360;
+            }
+            
+            while(angle < 0){
+                angle += 360;
+            }
+        }
+        //
 
+        //Return the angle
+        //
+        T getAngle() const {
+            return angle;
+        }
+        //
 
-    Angle operator+(const Angle& a) const;
-    Angle operator-(const Angle& a) const;
+        //  <<      Print out the object        <<
+        //
+        friend std::ostream& operator<<(std::ostream& out, const Angle& angleP){
+            out << angleP.getAngle() << "\u00b0";
+            return out;
+        }
+        //
 
-    const Angle& operator+=(const Angle& a);
-    const Angle& operator-=(const Angle& a);
+        //  +       Add two angle objects, return a copy            +
+        //
+        Angle operator+(const Angle& a) const {
+            return Angle(angle + a.getAngle());
+        }
+        //
 
-    Angle operator*(const double num) const;
-    Angle operator/(const double num) const;
+        //  -       Subtract two angle objects, return a copy       -
+        //
+        Angle operator-(const Angle& a) const {
+            return Angle(angle - a.getAngle());
+        }
+        //
 
-    const Angle& operator*=(const double num);
-    const Angle& operator/=(const double num);
+        //  +=      Original angle plus-equals another angle        +=
+        //
+        const Angle& operator+=(const Angle& a) {
+            setAngle(angle += a.getAngle());
+            return *this;
+        }
+        //
 
-    void operator=(const double num);
-    void operator=(const Angle& a);
+        //  -=      Original angle subtract-equals another angle    -=
+        //
+        const Angle& operator-=(const Angle& a) {
+            setAngle(angle -= a.getAngle());
+            return *this;
+        }
+        //
 
-    bool operator==(const Angle& a) const;
+        //  *       Multiply two angle objects, return a copy       *
+        //
+        Angle operator*(const T num) const {
+            return Angle(angle * num);
+        }
+        //
 
-    friend std::ostream& operator<<(std::ostream& out, const Angle& angleP);
+        //  /       Divide two angle objects, return a copy         /
+        //
+        Angle operator/(const T num) const {
+            return Angle(angle / num);
+        }
+        //
 
-    double getSin() const;
-    double getCos() const;
+        //  *=      Original angle multiply-equals a double         +=
+        //
+        const Angle& operator*=(const T num) {
+            setAngle(angle *= num);
+            return *this;
+        }
+        //
 
-    virtual ~Angle();
+        //  /=      Original angle divide-equals a double           /=
+        //
+        const Angle& operator/=(const T num) {
+            setAngle(angle /= num);
+            return *this;
+        }
+        //
+
+        //  =       Sets original angle equal to double             =
+        //
+        void operator=(const T num) {
+            setAngle(angle = num);
+        }
+        //
+
+        //  =       Sets original angle equal to another angle      =
+        //
+        void operator=(const Angle& a) {
+            setAngle(angle = a.getAngle());
+        }
+        //
+
+        //  ==      Checks to see if two angles are equal, returns a bool       ==
+        //
+        bool operator==(const Angle& a) const {
+            if(angle == a.getAngle()) {
+                return true;
+            }else{
+                return false;
+            }
+        }
+        //
+
+        double getSin() const{
+            return(sin(angle*M_PI/180.0));
+        }
+
+        double getCos() const{
+            return(cos(angle*M_PI/180.0));
+        }
+
+        //DUSTRUCTOR!
+        //
+        ~Angle(){}
+        //
 };
 
 

@@ -21,21 +21,18 @@ int main(){
     const auto MAX_POP = 20000;
 
     
-    //Test Error - Doesn't need to exit but easier to see that it works
-    //fishList.removeFish(4);
-
     //Both fish initial values
     //
     const auto INIT_X = 0;
     const auto INIT_Y = 0;
-    const auto UP_X_BOUND = INIT_X + 100;
-    const auto LOW_X_BOUND = INIT_X - 100;
-    const auto UP_Y_BOUND = INIT_Y + 100;
-    const auto LOW_Y_BOUND = INIT_Y - 100;
+    const auto UP_X_BOUND = INIT_X + 1000;
+    const auto LOW_X_BOUND = INIT_X - 1000;
+    const auto UP_Y_BOUND = INIT_Y + 1000;
+    const auto LOW_Y_BOUND = INIT_Y - 1000;
 
     //FlippyFishOnly
     //
-    const auto SWIM_SP = 2;
+    const auto SWIM_SP = 10;
     const auto TURN_SP = 45;    
     const auto INIT_DIR = 90;
 
@@ -50,7 +47,7 @@ int main(){
         fishList.push_back(flippy);
         ++flippyCount;
         ++i;
-        DrunkenFish* drunky = new DrunkenFish(INIT_X, INIT_Y, SWIM_SP-1);
+        DrunkenFish* drunky = new DrunkenFish(INIT_X, INIT_Y, SWIM_SP);
         fishList.push_back(drunky);
         drunkyCount++;        
     }

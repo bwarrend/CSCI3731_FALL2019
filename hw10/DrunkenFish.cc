@@ -3,8 +3,7 @@
 #include "Fish.h"
 #include "DrunkenFish.h"
 
-//Constructor:  Create a fish given x and y positions, swim speed, turnrate, initial direction, 
-//the population it will be added to, then adds itself to that population.
+//Constructor:  Create a fish given x and y positions, swim speed, turnrate, initial direction.
 //
 DrunkenFish::DrunkenFish(int x, int y, int speed)
     :Fish(x, y, speed){
@@ -16,12 +15,19 @@ DrunkenFish::DrunkenFish(int x, int y, int speed)
 void DrunkenFish::swim(){
     int choice = rand() % 4;
     
-    if      (choice == 0)   x += speed;
-    else if (choice == 1)   y += speed;
-    else if (choice == 2)   x -= speed;
-    else                    y -= speed;
+    switch(choice){
+        case 0: x += speed; break;
+        case 1: y += speed; break;
+        case 2: x -= speed; break;
+        case 3: y -= speed; break;
+        default: 
+            if(speed >= 1){
+                --speed;
+            }
+            swim();
+    }
 }
 
-//Destructor: when this fish is deleted, remove itself from the population
+//Destructor
 DrunkenFish::~DrunkenFish(){
 }

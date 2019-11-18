@@ -11,8 +11,8 @@ class FlippyFish : public Fish{
 private:
 
  
-    Angle turnRate;
-    Angle direction;
+    Angle<double> turnRate;
+    Angle<double> direction;
     
 
 public:

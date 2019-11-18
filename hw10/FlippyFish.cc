@@ -35,6 +35,13 @@ void FlippyFish::swim(){
 
     x += speed * direction.getCos();
     y += speed * direction.getSin();
+
+    //Something interesting, 25% chance to go in the same direction again
+    choice = rand() % 4;    
+    if(choice == 2){
+        x += speed * direction.getCos();
+        y += speed * direction.getSin();
+    }
 }
 
 //Destructor
