@@ -16,13 +16,25 @@ void cls()
 
 int main(){
 
-
+    //Changing this boolean will change the type of visualization
+    auto pers = false;
+    sf::String title = "Fish Sim";
+    //Set up a window 1000px X 1000px called Fish Sim
     sf::RenderWindow window(sf::VideoMode(1000,1000), "Fish Sim");
+    //Create a rectangle to be the water and set location of top left to 0, 0
     sf::RectangleShape water(sf::Vector2f(1000.f,1000.f));
     water.setPosition(0, 0);
-    water.setFillColor(sf::Color::Blue);
-    sf::RectangleShape cFish(sf::Vector2f(5.f,2.f));
-    
+    //Make a rectangle to visualize a fish, placeholder
+    sf::RectangleShape cFish(sf::Vector2f(1.f,1.f));
+
+    //Water is black if pers is true because it flickers badly on my slow laptop if it is blue
+    if(pers){
+        water.setFillColor(sf::Color::Black);
+    }else{
+        water.setFillColor(sf::Color::Blue);
+        cFish.setScale(5.f,2.f);
+    }   
+
 
 
     //Seed rng set up some constant fish related paramters
@@ -42,14 +54,16 @@ int main(){
 
     //FlippyFishOnly
     //
-    const auto SWIM_SP = 3;
-    const auto TURN_SP = 45;    
+    const auto SWIM_SP = 5;
+    const auto TURN_SP = 15;    
     const auto INIT_DIR = 90;
 
 
     auto flippyCount = 0;
     auto drunkyCount = 0;
 
+
+    //set us up the vector of fish pointers
     std::vector<Fish*> fishList;
 
     for(int i = 0; i < MAX_POP; ++i){
@@ -63,7 +77,7 @@ int main(){
     }
     
 
-
+    //Set up the windows main loop
     while (window.isOpen())
     {
         sf::Event event;
@@ -73,12 +87,15 @@ int main(){
                 window.close();
         }
         
-        //window.draw(water);
+        //Draw the water Initially
+        window.draw(water);
 
         while(flippyCount > 0 && drunkyCount > 0){
-
-            window.draw(water);
-
+            if(!pers){
+                window.draw(water);
+            }
+            
+            //Run through the fish, kill em if they stray too far, swim if they don't, draw the fish in the window
             for(int i = 0 ; i < MAX_POP; ++i){
                 if(fishList[i] != nullptr){
                     Fish* f;
@@ -88,8 +105,16 @@ int main(){
 
 
                         cFish.setPosition(f->getX()+500, f->getY()+500);
+
+                        FlippyFish* ff = dynamic_cast<FlippyFish*>(f);
+                        if(ff != nullptr){
+                            cFish.setFillColor(sf::Color::Cyan);
+                        }else{
+                            cFish.setFillColor(sf::Color::Green);
+                        }
+
                         window.draw(cFish);
-                        
+                    //This is where the fish go to die   
                     }else{
                         FlippyFish* ff = dynamic_cast<FlippyFish*>(f);
                         if(ff != nullptr){
@@ -98,34 +123,39 @@ int main(){
                             --drunkyCount;
                         }
                         
+                        title = "Population Remaining: ";
+                        window.setTitle(title);
                         delete fishList[i];
                         fishList[i] = nullptr;
                     }
                 }
             }
 
+            //Display the window
             window.display();
 
+            //We could prnt a bunch of stuff to the terminal if we cared.
+            /*
             cls();
             std::cout << "**FlippyFish VS DrunkenFish**" << std::endl;
             std::cout << "Total Population: " << drunkyCount + flippyCount << std::endl;
             std::cout << "FlippyFish Remaining: " << flippyCount << std::endl;
             std::cout << "DrunkenFish Remaining: " << drunkyCount << std::endl;
-                
+            */                
         }
+       
 
-
-
+    }
+        //who won?
         if(flippyCount > drunkyCount){
             std::cout << std::endl << "Flippys are victorious!" << std::endl;
+            window.setTitle("Flippy Fish Win");
         }else if(drunkyCount > flippyCount){
             std::cout << std::endl << "Drunkys are victorious!" << std::endl;
+            window.setTitle("Drunky Fish Win");
         }else{
             std::cout << std::endl << "Miraculously, a draw.." << std::endl; 
         }
 
-
     return 0;
-
-    }
 }
