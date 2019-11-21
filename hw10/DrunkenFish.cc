@@ -1,5 +1,3 @@
-#include <iostream>
-#include <cstdlib>
 #include "Fish.h"
 #include "DrunkenFish.h"
 
@@ -23,7 +21,7 @@ void DrunkenFish::swim(){
         case 2: x -= speed; break;
         case 3: y -= speed; break;
         default: 
-            if(speed >= 1){
+            if(speed >= 3){
                 --speed;
             }
             swim();

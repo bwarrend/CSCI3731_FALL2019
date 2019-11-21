@@ -1,4 +1,3 @@
-#include <iostream>
 #include <cstdlib>
 #include "Fish.h"
 #include "FlippyFish.h"
@@ -29,8 +28,8 @@ void FlippyFish::swim(){
     
     if(choice == 0){
         direction -= turnRate;
-    }else if(choice == 3){
-        direction -= turnRate;
+    }else if(choice == 2){
+        direction += turnRate;
     }
 
     x += speed * direction.getCos();

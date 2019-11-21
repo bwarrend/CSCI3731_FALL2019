@@ -1,5 +1,3 @@
-#include <iostream>
-#include <cstdlib>
 #include "Fish.h"
 
 //Constructor:  Create a fish given x and y positions, swim speed, turnrate, initial direction, 
